@@ -33,7 +33,7 @@ namespace WindowsFormsApplication1
             try
             {
                 serialPort1.Open();             //COMポートを開く
-                serialPort2.Open();
+                
             }
             catch
             {
@@ -53,7 +53,7 @@ namespace WindowsFormsApplication1
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             serialPort1.Close();
-            serialPort2.Close();
+          
         }
 
         #region B3Mの動作関数
@@ -126,7 +126,7 @@ namespace WindowsFormsApplication1
                 seu=seu-10;
                 cmd.Bytes = B3MLib.B3MLib.SetPosision(0, servoID, seu, time);
                 B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
-                this.Invoke(new EventHandler(textBox1_TextChanged));
+               
                 Thread.Sleep(1);
                
             }
@@ -253,22 +253,6 @@ namespace WindowsFormsApplication1
 
         #endregion
 
-        private void Form1_InputLanguageChanging(object sender, InputLanguageChangingEventArgs e)
-        {
-
-        }
-
-        private void serialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            str = serialPort2.ReadLine();
-            Thread.Sleep(1);
-            this.Invoke(new EventHandler(textBox1_TextChanged));
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            textBox1.Text = str;
-        }
+       
     }
 }

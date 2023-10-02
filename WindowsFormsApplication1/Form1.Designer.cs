@@ -38,8 +38,6 @@
             this.normalButton = new System.Windows.Forms.Button();
             this.setPosButton = new System.Windows.Forms.Button();
             this.getPosButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.serialPort2 = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.posNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -139,27 +137,11 @@
             this.getPosButton.UseVisualStyleBackColor = true;
             this.getPosButton.Click += new System.EventHandler(this.getPosButton_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(366, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(53, 19);
-            this.textBox1.TabIndex = 8;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // serialPort2
-            // 
-            this.serialPort2.BaudRate = 115200;
-            this.serialPort2.PortName = "COM4";
-            this.serialPort2.ReadTimeout = 1;
-            this.serialPort2.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort2_DataReceived);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 121);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.getPosButton);
             this.Controls.Add(this.setPosButton);
             this.Controls.Add(this.normalButton);
@@ -172,7 +154,7 @@
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.InputLanguageChanging += new System.Windows.Forms.InputLanguageChangingEventHandler(this.Form1_InputLanguageChanging);
+            
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.posNumericUpDown)).EndInit();
             this.ResumeLayout(false);
@@ -191,8 +173,6 @@
         private System.Windows.Forms.Button normalButton;
         private System.Windows.Forms.Button setPosButton;
         private System.Windows.Forms.Button getPosButton;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.IO.Ports.SerialPort serialPort2;
     }
 }
 
