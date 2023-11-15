@@ -70,9 +70,10 @@ namespace WindowsFormsApplication1
             byte[] rx = new byte[5];        //コマンド受信用(Writeコマンドは5byte)
 
             //コマンドの作成
-            //cmd.Bytes = B3MLib.B3MLib.Write(0, B3MLib.B3MLib.SERVO_TORQUE_ON, 1, servoID, new byte[] { mode });
+           // cmd.Bytes = B3MLib.B3MLib.Write(0, B3MLib.B3MLib.SERVO_TORQUE_ON, 1, servoID, new byte[] { mode });
+            cmd.Bytes = B3MLib.B3MLib.WriteSingle(0x01, 0x29, servoID, new byte[] { 1 });
+            B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
             cmd.Bytes = B3MLib.B3MLib.WriteSingle(0, B3MLib.B3MLib.SERVO_TORQUE_ON, servoID, new byte[] { mode });
-            
             //option:0
             //address:B3MLib.B3MLib.SERVO_TORQUE_ON (0x28)
             //count:1(データを送るB3Mの数)
@@ -116,20 +117,20 @@ namespace WindowsFormsApplication1
         /// <returns></returns>
         private bool b3mSetPosition(SerialPort serialPort, byte servoID, int angle, ushort time)
         {
-            int seu = 5000;
+            int seu = 3000;
             ByteList cmd = new ByteList();  //コマンド格納用
             byte[] rx = new byte[7];        //コマンド受信用(Writeコマンドは7byte)
 
             //コマンドの作成
-            while (seu >= -5000)
-            {
-                seu=seu-10;
-                cmd.Bytes = B3MLib.B3MLib.SetPosision(0, servoID, seu, time);
+           // while (seu >= -3000)
+           // {
+             //   seu=seu-10;
+                cmd.Bytes = B3MLib.B3MLib.SetPosision(0, servoID, angle, 1000);
                 B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
                
-                Thread.Sleep(1);
+                //Thread.Sleep(60000);
                
-            }
+            //}
            
             //option:0
             //ID:servoID
@@ -220,7 +221,7 @@ namespace WindowsFormsApplication1
         {
             bool flag;
 
-            flag = b3mSetPosition(serialPort1, (byte)idNumericUpDown.Value,(int)posNumericUpDown.Value,0);
+            flag = b3mSetPosition(serialPort1, (byte)idNumericUpDown.Value,(int)posNumericUpDown.Value,10000);
 
             if (flag == false)
             {

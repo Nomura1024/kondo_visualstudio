@@ -45,7 +45,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 1500000;
-            this.serialPort1.PortName = "COM3";
+            this.serialPort1.PortName = "COM4";
             this.serialPort1.ReadTimeout = 500;
             // 
             // idNumericUpDown
@@ -154,7 +154,6 @@
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            
             ((System.ComponentModel.ISupportInitialize)(this.idNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.posNumericUpDown)).EndInit();
             this.ResumeLayout(false);
