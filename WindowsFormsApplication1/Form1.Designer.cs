@@ -47,7 +47,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 1500000;
-            this.serialPort1.PortName = "COM3";
+            this.serialPort1.PortName = "COM4";
             this.serialPort1.ReadTimeout = 500;
             // 
             // idNumericUpDown
@@ -150,7 +150,7 @@
             // serialPort2
             // 
             this.serialPort2.BaudRate = 115200;
-            this.serialPort2.PortName = "COM4";
+            this.serialPort2.PortName = "COM3";
             this.serialPort2.ReadTimeout = 1;
             this.serialPort2.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort2_DataReceived);
             // 

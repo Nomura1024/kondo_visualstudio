@@ -71,7 +71,10 @@ namespace WindowsFormsApplication1
 
             //コマンドの作成
             //cmd.Bytes = B3MLib.B3MLib.Write(0, B3MLib.B3MLib.SERVO_TORQUE_ON, 1, servoID, new byte[] { mode });
+            cmd.Bytes = B3MLib.B3MLib.WriteSingle(0x01, 0x29, servoID, new byte[] { 1 });
+            B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
             cmd.Bytes = B3MLib.B3MLib.WriteSingle(0, B3MLib.B3MLib.SERVO_TORQUE_ON, servoID, new byte[] { mode });
+            //cmd.Bytes = B3MLib.B3MLib.WriteSingle(0, B3MLib.B3MLib.SERVO_TORQUE_ON, servoID, new byte[] { mode });
             
             //option:0
             //address:B3MLib.B3MLib.SERVO_TORQUE_ON (0x28)
@@ -120,16 +123,21 @@ namespace WindowsFormsApplication1
             ByteList cmd = new ByteList();  //コマンド格納用
             byte[] rx = new byte[7];        //コマンド受信用(Writeコマンドは7byte)
 
+            cmd.Bytes = B3MLib.B3MLib.SetPosision(0, servoID, angle, 1000);
+            B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
             //コマンドの作成
-            while (seu >= -5000)
-            {
+           // while (seu >= -5000)
+            //{
                 seu=seu-10;
-                cmd.Bytes = B3MLib.B3MLib.SetPosision(0, servoID, seu, time);
-                B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
-                this.Invoke(new EventHandler(textBox1_TextChanged));
                 Thread.Sleep(1);
-               
-            }
+               // str = serialPort2.ReadLine();
+                
+                //B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
+                //this.Invoke(new EventHandler(textBox1_TextChanged));
+                //serialPort.ReadTimeout = 1000;
+                
+
+            //}
            
             //option:0
             //ID:servoID
@@ -261,7 +269,8 @@ namespace WindowsFormsApplication1
         private void serialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             str = serialPort2.ReadLine();
-            Thread.Sleep(1);
+            serialPort2.ReadTimeout = 100;
+            //await Task.Delay(10);
             this.Invoke(new EventHandler(textBox1_TextChanged));
 
         }
@@ -269,6 +278,10 @@ namespace WindowsFormsApplication1
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.Text = str;
+            //serialPort2.ReadTimeout = 1;
+            //Thread.Sleep(1);
+
+
         }
     }
 }
