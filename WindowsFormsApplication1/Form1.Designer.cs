@@ -150,7 +150,7 @@
             // serialPort2
             // 
             this.serialPort2.BaudRate = 115200;
-            this.serialPort2.PortName = "COM3";
+            this.serialPort2.PortName = "COM6";
             this.serialPort2.ReadTimeout = 1;
             this.serialPort2.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort2_DataReceived);
             // 

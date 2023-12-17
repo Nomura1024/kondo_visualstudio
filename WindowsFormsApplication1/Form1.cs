@@ -119,7 +119,7 @@ namespace WindowsFormsApplication1
         /// <returns></returns>
         private bool b3mSetPosition(SerialPort serialPort, byte servoID, int angle, ushort time)
         {
-            int seu = 5000;
+          //  int seu = 5000;
             ByteList cmd = new ByteList();  //コマンド格納用
             byte[] rx = new byte[7];        //コマンド受信用(Writeコマンドは7byte)
 
@@ -128,8 +128,8 @@ namespace WindowsFormsApplication1
             //コマンドの作成
            // while (seu >= -5000)
             //{
-                seu=seu-10;
-                Thread.Sleep(1);
+             //   seu=seu-10;
+               // Thread.Sleep(1);
                // str = serialPort2.ReadLine();
                 
                 //B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
@@ -268,8 +268,15 @@ namespace WindowsFormsApplication1
 
         private void serialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+
+            double i = 0;
             str = serialPort2.ReadLine();
-            serialPort2.ReadTimeout = 100;
+            if(double.TryParse(str,out i))
+            {
+                i = Convert.ToDouble(str);
+            }
+            serialPort2.ReadTimeout = 1000;
+            if (i >= 1.2) b3mFreePosModeSet(serialPort1, (byte)idNumericUpDown.Value);
             //await Task.Delay(10);
             this.Invoke(new EventHandler(textBox1_TextChanged));
 
