@@ -276,7 +276,7 @@ namespace WindowsFormsApplication1
                 i = Convert.ToDouble(str);
             }
             serialPort2.ReadTimeout = 1000;
-            if (i >= 1.2) b3mFreePosModeSet(serialPort1, (byte)idNumericUpDown.Value);
+            if (i >= 1.0) b3mFreePosModeSet(serialPort1, (byte)idNumericUpDown.Value);
             //await Task.Delay(10);
             this.Invoke(new EventHandler(textBox1_TextChanged));
 
