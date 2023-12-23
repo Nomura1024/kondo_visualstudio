@@ -11,15 +11,20 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using Extensions.Collections;
 using System.Threading;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
+
     public partial class Form1 : Form
     {
+        public double[] logData;
+        public int j = 0;
         public string str;
         public Form1()
         {
             InitializeComponent();
+            logData = new double[2000];
         }
 
 
@@ -119,7 +124,8 @@ namespace WindowsFormsApplication1
         /// <returns></returns>
         private bool b3mSetPosition(SerialPort serialPort, byte servoID, int angle, ushort time)
         {
-          //  int seu = 5000;
+            //  int seu = 5000;
+            
             ByteList cmd = new ByteList();  //コマンド格納用
             byte[] rx = new byte[7];        //コマンド受信用(Writeコマンドは7byte)
 
@@ -129,16 +135,17 @@ namespace WindowsFormsApplication1
            // while (seu >= -5000)
             //{
              //   seu=seu-10;
-               // Thread.Sleep(1);
+                
+           
                // str = serialPort2.ReadLine();
-                
-                //B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
-                //this.Invoke(new EventHandler(textBox1_TextChanged));
-                //serialPort.ReadTimeout = 1000;
-                
+
+            //B3MLib.B3MLib.Synchronize(serialPort, cmd.Bytes, ref rx);
+            //this.Invoke(new EventHandler(textBox1_TextChanged));
+            //serialPort.ReadTimeout = 1000;
+
 
             //}
-           
+
             //option:0
             //ID:servoID
             //pos:送信するデータ配列
@@ -179,6 +186,46 @@ namespace WindowsFormsApplication1
 
             return true;
         }
+
+
+
+
+
+        private void SaveLog(params double[] logData)
+        {
+            // ログの出力先ファイルパスを指定
+
+            string logFileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv";
+            string logDirectoryPath = "C:\\Users\\Owner\\OneDrive - Chiba Institute of Technology\\研究室\\トマト\\data\\12_21\\log";
+
+            // フォルダが存在しない場合は新しいフォルダを作成
+            Directory.CreateDirectory(logDirectoryPath);
+
+            // ログの出力先ファイルパスを指定
+            string logFilePath = Path.Combine(logDirectoryPath, logFileName);
+
+            // ファイルが存在しない場合はヘッダを書き込む
+            if (!File.Exists(logFilePath))
+            {
+                using (StreamWriter headerWriter = new StreamWriter(logFilePath))
+                {
+                    headerWriter.WriteLine("Data");
+                }
+            }
+
+            // 配列の各要素をログとしてCSVファイルに追記
+            using (StreamWriter sw = new StreamWriter(logFilePath, true))
+            {
+                foreach (var data in logData)
+                {
+                    // ログにデータを追加
+                    sw.WriteLine(data);
+                }
+            }
+        }
+
+
+
 
 
         #endregion
@@ -249,7 +296,7 @@ namespace WindowsFormsApplication1
 
             flag = b3mAngleRead(serialPort1, (byte)idNumericUpDown.Value, ref angle);
 
-            
+            SaveLog(logData);
             if (flag == false)
             {
                 MessageBox.Show("データの送信に失敗しました");
@@ -270,13 +317,16 @@ namespace WindowsFormsApplication1
         {
 
             double i = 0;
+            
             str = serialPort2.ReadLine();
             if(double.TryParse(str,out i))
             {
                 i = Convert.ToDouble(str);
             }
+            logData[j] = i;
+            j++;
             serialPort2.ReadTimeout = 1000;
-            if (i >= 1.0) b3mFreePosModeSet(serialPort1, (byte)idNumericUpDown.Value);
+            //if (i >= 1.0) b3mFreePosModeSet(serialPort1, (byte)idNumericUpDown.Value);
             //await Task.Delay(10);
             this.Invoke(new EventHandler(textBox1_TextChanged));
 
